@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-[ApiController]
-[Route("api/[controller]")] // /api/users
+[ApiController] //controller
+[Route("api/[controller]")] // /api/user
 public class UserController: ControllerBase
 {
     private readonly DataContext _context;
@@ -16,12 +16,12 @@ public class UserController: ControllerBase
 
     }
 
-    [HttpGet]
+    [HttpGet] //endpoint
     public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
     {
         var users =await _context.Users.ToListAsync();
 
-        return users;
+        return users; //return the list of usrs
     }
 
     [HttpGet("{id}")] // /api/users/2

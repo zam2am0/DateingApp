@@ -10,9 +10,12 @@ builder.Services.AddDbContext<DataContext>(opt => //add DB context to programm c
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")); //configration it
 });
+builder.Services.AddCors();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

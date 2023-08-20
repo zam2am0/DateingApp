@@ -1,24 +1,27 @@
-using API.Data;
-using Microsoft.EntityFrameworkCore;
+using API.Extenations;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+//// services of entity framework
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 
-builder.Services.AddDbContext<DataContext>(opt => //add DB context to programm class
-{
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")); //configration it
-});
-builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
-app.UseHttpsRedirection();
+app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod()
+    .WithOrigins("https://localhost:4200"));
 
-app.UseAuthorization();
+// add authentication middleware before the map controllers
+app.UseAuthentication(); //just ask ,Do you have a valid token?
+app.UseAuthorization(); //say you have valid token, what are you allow?
+
+app.UseHttpsRedirection();
 
 app.MapControllers();
 

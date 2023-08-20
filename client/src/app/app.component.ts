@@ -8,15 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   title  = 'Dating App';
+
   users : any; //can be any type
+  constructor(private http: HttpClient){} //  It initializes the component and injects an instance of the HttpClient service, which is used to make HTTP requests.
 
-  constructor(private http: HttpClient){}
-
-  ngOnInit():void{
-    this.http.get("https://localhost:5001/api/user").subscribe({
-      next: response =>  this.users = response,
-      error: error => console.log(error),
-      complete:() => console.log("Request has completed")
+  ngOnInit():void{ //angular method
+    this.http.get("https://localhost:5001/api/user").subscribe({ //method sends an HTTP GET request to the specified URL
+      next: response =>  this.users = response,  //assigns the response data (list of users) to the users variable.
+      error: error => console.log(error), //callback function that gets executed if an error occurs during the HTTP request.
+      complete:() => console.log("Request has completed")//callback function that gets executed when the request is completed
 
     });
   }
